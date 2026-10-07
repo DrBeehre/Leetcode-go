@@ -1,8 +1,0 @@
-{
-  "editor.quickSuggestions": { "other": false, "comments": false, "strings": false },
-  "editor.suggestOnTriggerCharacters": true,
-  "editor.inlineSuggest.enabled": true,
-  "editor.parameterHints.enabled": true,
-  "editor.acceptSuggestionOnEnter": "off",
-  "editor.wordBasedSuggestions": "off"
-}
