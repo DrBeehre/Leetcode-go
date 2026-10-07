@@ -1,0 +1,12 @@
+[tools]
+go = "1.25"
+golangci-lint = "2.14.0"
+hk = "2.5.0"
+make = "latest"
+pkl = "0.32.1"
+
+[env]
+HK_MISE = "1"
+
+[hooks]
+postinstall = "hk install --mise"

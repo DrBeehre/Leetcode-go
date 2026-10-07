@@ -1,0 +1,36 @@
+amends "package://github.com/jdx/hk/releases/download/v2.5.0/hk@2.5.0#/Config.pkl"
+import "package://github.com/jdx/hk/releases/download/v2.5.0/hk@2.5.0#/Builtins.pkl"
+
+local linters = new Mapping<String, Step> {
+    ["golangci-fmt"] = Builtins.golangci_lint_fmt
+    ["golangci-lint"] = (Builtins.golangci_lint) {
+        depends = List("golangci-fmt")
+    }
+}
+
+local goBuild = new Mapping<String, Step> {
+    ["go-build"] = new Step{
+        glob = List("**/*.go", "go.mod", "go.sum")
+        check = "make build"
+        depends = List("golangci-lint")
+    }
+}
+
+local lintAndBuild = (linters) {
+    ["go-build"] = goBuild
+}
+
+hooks {
+    ["pre-commit"] {
+        fix = true
+        stash = "git"
+        steps = lintAndBuild
+    }
+    ["check"] { 
+        steps = linters
+    }
+    ["fix"] {
+        fix = true
+        steps = linters
+    }
+}
