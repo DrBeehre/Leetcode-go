@@ -8,15 +8,22 @@ local linters = new Mapping<String, Step> {
     }
 }
 
-local goBuild = new Mapping<String, Step> {
-    ["go-build"] = new Step{
-        glob = List("**/*.go", "go.mod", "go.sum")
-        check = "make build"
-        depends = List("golangci-lint")
-    }
+local goFiles = List("**/*.go", "go.mod", "go.sum")
+
+local goTest = new Step {
+    glob = goFiles
+    check = "make test"
+    depends = List("golangci-lint")
 }
 
-local lintAndBuild = (linters) {
+local goBuild = new Step {
+    glob = goFiles
+    check = "make build"
+    depends = List("go-test")
+}
+
+local allChecks = (linters) {
+    ["go-test"] = goTest
     ["go-build"] = goBuild
 }
 
@@ -24,7 +31,7 @@ hooks {
     ["pre-commit"] {
         fix = true
         stash = "git"
-        steps = lintAndBuild
+        steps = allChecks
     }
     ["check"] { 
         steps = linters
