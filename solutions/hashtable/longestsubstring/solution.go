@@ -19,32 +19,24 @@ func init() {
 }
 
 func lengthOfLongestSubstring(s string) int {
-	charMap := make(map[rune]int) // Seen: pos
-
-	substring := ""
-	longestSubstringLength := 0
+	charMap := make(map[rune]int)
+	startPos := 0
+	longestSubStringLength := 0
 
 	for pos, char := range []rune(s) {
-		fmt.Printf("pos: %v, char: %c\n", pos, char)
-
-		// I KNOW! I need to create a new substring starting from the position of the last seen position!
 
 		seenPos, found := charMap[char]
-		if found {
-			fmt.Printf("seen char %c before at position %v\n", char, seenPos)
-			substring = string(char)
-			// NEED TO USE THE SEEN POSITION SOMEWHERE
-
-		} else {
-			substring += string(char)
+		if found && seenPos >= startPos {
+			startPos = seenPos + 1
 		}
 
-		if len(substring) > longestSubstringLength {
-			longestSubstringLength = len(substring)
+		length := pos - startPos + 1
+		if length > longestSubStringLength {
+			longestSubStringLength = length
 		}
 
 		charMap[char] = pos
 	}
 
-	return longestSubstringLength
+	return longestSubStringLength
 }
