@@ -2,6 +2,7 @@ package twosum
 
 import (
 	"fmt"
+	"reflect"
 	"testing"
 )
 
@@ -15,10 +16,10 @@ func TestTwoSum(t *testing.T) {
 		{[]int{3, 2, 4}, 6, []int{1, 2}},
 		{[]int{3, 3}, 6, []int{0, 1}},
 	}
-	// for _, tt := range tests {
-	// 	if got := TwoSum(tt.nums, tt.target); !reflect.DeepEqual(got, tt.want) {
-	// 		t.Errorf("TwoSum(%v, %d) = %v, want %v", tt.nums, tt.target, got, tt.want)
-	// 	}
-	// }
-	fmt.Printf("TestTwoSum is currently commented out. Uncomment the test cases to run them. %v", tests)
+	for _, test := range tests {
+		fmt.Printf("Running test case: nums=%v, target=%d, want=%v\n", test.nums, test.target, test.want)
+		if got := twoSum(test.nums, test.target); !reflect.DeepEqual(got, test.want) {
+			t.Errorf("twoSum(%v, %d) = %v, want %v", test.nums, test.target, got, test.want)
+		}
+	}
 }

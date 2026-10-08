@@ -6,6 +6,8 @@ import (
 	"strconv"
 
 	"github.com/DrBeehre/Leetcode-go/solutions"
+
+	_ "github.com/DrBeehre/Leetcode-go/solutions/all"
 )
 
 func Execute() {
